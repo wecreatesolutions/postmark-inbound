@@ -2,92 +2,125 @@
 
 declare(strict_types=1);
 
-use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
-use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
-use Rector\CodeQuality\Rector\Identical\SimplifyBoolIdenticalTrueRector;
-use Rector\CodingStyle\Rector\Class_\AddArrayDefaultToArrayPropertyRector;
-use Rector\CodingStyle\Rector\ClassConst\VarConstantCommentRector;
-use Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector;
-use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
-use Rector\CodingStyle\Rector\PostInc\PostIncDecToPreIncDecRector;
-use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
-use Rector\CodingStyle\Rector\Switch_\BinarySwitchToIfElseRector;
+use Rector\CodeQuality\Rector\If_\CombineIfRector;
+use Rector\CodingStyle\Rector\ClassMethod\FuncGetArgsToVariadicParamRector;
 use Rector\Config\RectorConfig;
-use Rector\Php74\Rector\LNumber\AddLiteralSeparatorToNumberRector;
-use Rector\Php74\Rector\Property\TypedPropertyRector;
-use Rector\Privatization\Rector\Class_\ChangeReadOnlyVariableWithDefaultValueToConstantRector;
-use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
-use Rector\Privatization\Rector\MethodCall\PrivatizeLocalGetterToPropertyRector;
+use Rector\DeadCode\Rector\MethodCall\RemoveEmptyMethodCallRector;
+use Rector\Doctrine\Set\DoctrineSetList;
+use Rector\Php53\Rector\Variable\ReplaceHttpServerVarsByServerRector;
+use Rector\Php80\Rector\Class_\AnnotationToAttributeRector;
+use Rector\Php80\ValueObject\AnnotationToAttribute;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
-use Rector\TypeDeclaration\Rector\ClassMethod\AddArrayParamDocTypeRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\ArrayShapeFromConstantArrayReturnRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictBoolReturnExprRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictNewArrayRector;
-use Rector\TypeDeclaration\Rector\FunctionLike\ReturnTypeDeclarationRector;
-use Rector\TypeDeclaration\Rector\Property\PropertyTypeDeclarationRector;
+use Rector\Symfony\Rector\ClassMethod\ConsoleExecuteReturnIntRector;
+use Rector\Symfony\Set\SensiolabsSetList;
+use Rector\Symfony\Set\SymfonyLevelSetList;
+use Rector\Symfony\Set\SymfonySetList;
+use Rector\Symfony\Set\TwigLevelSetList;
+use Rector\TypeDeclaration\Rector\ClassMethod\ParamTypeByParentCallTypeRector;
+use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromAssignsRector;
+use WeCreateSolutions\Rector\WafConfigs;
+use WeCreateSolutions\Rector\WcsBase;
 
 // @see https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md
 
 return static function (RectorConfig $rectorConfig): void {
+
+    $projectRoot = WcsBase::getProjectRoot();
+
     $rectorConfig->paths(
         [
-            __DIR__ . '/src',
+            $projectRoot . '/src',
         ]
     );
 
-    $rectorConfig->sets(
-        [
-            SetList::CODE_QUALITY,
-            SetList::DEAD_CODE,
-            SetList::CODING_STYLE,
-            SetList::NAMING,  // might be nice to run for some files
-            SetList::PRIVATIZATION,
-            SetList::TYPE_DECLARATION,
-            SetList::TYPE_DECLARATION_STRICT,
-            SetList::PSR_4,
-            SetList::PHP_52,
-            LevelSetList::UP_TO_PHP_80,
-        ]
-    );
+    // @see https://github.com/rectorphp/rector/blob/main/docs/how_to_persist_cache_between_ci_runs.md
+    $rectorConfig->cacheDirectory($projectRoot . '/var/tmp/rector');
+
+    // @see https://github.com/rectorphp/rector/blob/main/docs/how_to_troubleshoot_parallel_issues.md
+    $rectorConfig->parallel(4800);
+
+    // @see https://github.com/rectorphp/rector/blob/main/docs/auto_import_names.md
+    $rectorConfig->importNames();
+
+//    $rectorConfig->sets(
+//        [
+//            // region base
+//            LevelSetList::UP_TO_PHP_74,
+//            SetList::CODE_QUALITY,
+//            SetList::CODING_STYLE,
+//            SetList::DEAD_CODE,
+//            SetList::PSR_4,
+//            // SetList::NAMING,  // might be nice to run for some files
+//            // SetList::PRIVATIZATION,
+//            SetList::TYPE_DECLARATION,
+//            // endregion
+//
+//            // region third party
+//            // region SensiolabsSetList
+//            SensiolabsSetList::FRAMEWORK_EXTRA_40,
+//            SensiolabsSetList::FRAMEWORK_EXTRA_50,
+//            SensiolabsSetList::FRAMEWORK_EXTRA_61,
+//            SensiolabsSetList::ANNOTATIONS_TO_ATTRIBUTES,
+//            // endregion
+//
+//            // region SymfonySetList
+//            SymfonyLevelSetList::UP_TO_SYMFONY_54,
+//            SymfonySetList::SYMFONY_CODE_QUALITY,
+//            SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
+//            // endregion
+//
+//            // region doctrine
+//            DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
+//            DoctrineSetList::DOCTRINE_CODE_QUALITY,
+//            DoctrineSetList::DOCTRINE_DBAL_30,
+//            // endregion
+//
+//            // region twig
+//            TwigLevelSetList::UP_TO_TWIG_240,
+//            // endregion
+//
+//            // endregion
+//        ]
+//    );
+
     $rectorConfig->rules(
         [
-            InlineConstructorDefaultToPropertyRector::class,
-            TypedPropertyRector::class,
-            ReturnTypeFromStrictBoolReturnExprRector::class,
-            ReturnTypeFromStrictNewArrayRector::class,
+            //            TypedPropertyRector::class, // UNSAFE
         ]
     );
 
-    // ignore for now
-    $rectorConfig->skip(
+    $rectorConfig->ruleWithConfiguration(
+        AnnotationToAttributeRector::class,
         [
-            CountArrayToEmptyArrayComparisonRector::class,  // -> change count array comparison to empty array
-            // comparison to improve performance
-            SimplifyBoolIdenticalTrueRector::class, // not used to this
-            FlipTypeControlToUseExclusiveTypeRector::class, // not used to this
-            VarConstantCommentRector::class, // phpcs will say constant does not need type
-            PostIncDecToPreIncDecRector::class, // not used to this
-
-            BinarySwitchToIfElseRector::class, // not used to this
-            SymplifyQuoteEscapeRector::class, // not used to this
-            NewlineBeforeNewAssignSetRector::class, // not used to this
-
-            AddArrayParamDocTypeRector::class, // nice to have - conflicts with phpstan now
-            AddArrayReturnDocTypeRector::class, // nice to have - conflicts with phpstan now
-            ReturnTypeDeclarationRector::class, // nice to have - conflicts with phpstan now
-            ArrayShapeFromConstantArrayReturnRector::class, // nice to have - conflicts with phpstan now
-            PropertyTypeDeclarationRector::class, // might be ok
-
-            AddLiteralSeparatorToNumberRector::class, // not used for now.
-
-            AddArrayDefaultToArrayPropertyRector::class, // nice but does work 100% when array is set in constructor
-
-            FinalizeClassesWithoutChildrenRector::class, // nice to have
-            ChangeReadOnlyVariableWithDefaultValueToConstantRector::class, // really nice to have - throws an error
-
-            PrivatizeLocalGetterToPropertyRector::class, // not sure about this one, for DI might be ok ~
         ]
+    );
+
+    // @see https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md
+    $rectorConfig->skip(
+        array_merge(
+            WafConfigs::SKIPS,
+            [
+                FuncGetArgsToVariadicParamRector::class    => [],
+
+                // region slow rules
+                TypedPropertyFromAssignsRector::class,
+                RemoveEmptyMethodCallRector::class,
+                ParamTypeByParentCallTypeRector::class     => [],
+                ReplaceHttpServerVarsByServerRector::class => [],
+                // endregion
+
+                // region to review with team
+                CombineIfRector::class                     => [],
+                // endregion
+
+                // region false-positive
+                ConsoleExecuteReturnIntRector::class       => [
+                ],
+                // endregion
+
+                Rector\DeadCode\Rector\Node\RemoveNonExistingVarAnnotationRector::class, // https://blog.jetbrains.com/phpstorm/2022/06/phpstorm-2022-2-eap-5/#Anonymous_var_in_return_statements
+            ]
+        )
     );
 };

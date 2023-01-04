@@ -16,7 +16,7 @@ class Message
 
     private string $mailboxHash;
 
-    private DateTimeImmutable $date;
+    private DateTimeImmutable $dateTimeImmutable;
 
     private string $textBody;
 
@@ -28,7 +28,7 @@ class Message
 
     private string $messageStream;
 
-    private Contact $from;
+    private Contact $contact;
 
     /**
      * @var array<Contact>
@@ -112,12 +112,12 @@ class Message
 
     public function getDate(): DateTimeImmutable
     {
-        return $this->date;
+        return $this->dateTimeImmutable;
     }
 
-    public function setDate(DateTimeImmutable $date): Message
+    public function setDate(DateTimeImmutable $dateTimeImmutable): Message
     {
-        $this->date = $date;
+        $this->dateTimeImmutable = $dateTimeImmutable;
         return $this;
     }
 
@@ -176,15 +176,15 @@ class Message
         return $this;
     }
 
-    public function setFrom(Contact $from): Message
+    public function setFrom(Contact $contact): Message
     {
-        $this->from = $from;
+        $this->contact = $contact;
         return $this;
     }
 
     public function getFrom(): Contact
     {
-        return $this->from;
+        return $this->contact;
     }
 
     /**
@@ -193,7 +193,7 @@ class Message
     public function setCc(array $cc): Message
     {
         $this->cc = [];
-        array_walk_recursive($cc, function (Contact $contact) {
+        array_walk_recursive($cc, function (Contact $contact): void {
             $this->cc[] = $contact;
         });
         return $this;
@@ -209,12 +209,11 @@ class Message
 
     /**
      * @param Contact[] $bcc
-     * @return $this
      */
     public function setBcc(array $bcc): Message
     {
         $this->bcc = [];
-        array_walk_recursive($bcc, function (Contact $contact) {
+        array_walk_recursive($bcc, function (Contact $contact): void {
             $this->bcc[] = $contact;
         });
         return $this;
@@ -222,12 +221,11 @@ class Message
 
     /**
      * @param Contact[] $to
-     * @return $this
      */
     public function setTo(array $to): Message
     {
         $this->to = [];
-        array_walk_recursive($to, function (Contact $contact) {
+        array_walk_recursive($to, function (Contact $contact): void {
             $this->to[] = $contact;
         });
         return $this;
@@ -251,12 +249,11 @@ class Message
 
     /**
      * @param Attachment[] $attachments
-     * @return $this
      */
     public function setAttachments(array $attachments): Message
     {
         $this->attachments = [];
-        array_walk_recursive($attachments, function (Attachment $attachment) {
+        array_walk_recursive($attachments, function (Attachment $attachment): void {
             $this->attachments[] = $attachment;
         });
         return $this;
@@ -272,12 +269,11 @@ class Message
 
     /**
      * @param Header[] $headers
-     * @return $this
      */
     public function setHeaders(array $headers): Message
     {
         $this->headers = [];
-        array_walk_recursive($headers, function (Header $header) {
+        array_walk_recursive($headers, function (Header $header): void {
             $this->headers[] = $header;
         });
         return $this;
@@ -298,6 +294,7 @@ class Message
                 return $header;
             }
         }
+
         return null;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace WeCreateSolutions\Postmark;
 
-class InboundParseException extends \LogicException
+use LogicException;
+
+class InboundParseException extends LogicException
 {
 }

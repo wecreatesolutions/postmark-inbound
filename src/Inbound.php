@@ -2,6 +2,9 @@
 
 namespace WeCreateSolutions\Postmark;
 
+use DateTimeImmutable;
+use Exception;
+
 /**
  * @phpstan-type InboundMessage array{
  *                                       Date: string,
@@ -44,9 +47,7 @@ namespace WeCreateSolutions\Postmark;
 class Inbound
 {
     /**
-     * @param array $json
      * @phpstan-param InboundMessage $json
-     * @return Message
      */
     public static function fromPostmarkArray(array $json): Message
     {
@@ -69,16 +70,16 @@ class Inbound
         );
 
         try {
-            $date = new \DateTimeImmutable($json['Date']);
-        } catch (\Exception) {
+            $dateTimeImmutable = new DateTimeImmutable($json['Date']);
+        } catch (Exception) {
             throw new InboundParseException('Invalid date format ');
         }
 
         $requiredKeys = ['FromFull', 'ToFull', 'CcFull', 'BccFull', 'Subject', 'OriginalRecipient', 'MailboxHash', 'MessageID', 'Headers', 'Attachments', 'ReplyTo', 'TextBody', 'HtmlBody', 'StrippedTextReply', 'Tag'];
         $missingKeys = [];
-        foreach ($requiredKeys as $keyName) {
-            if (!array_key_exists($keyName, $json)) {
-                $missingKeys[] = $keyName;
+        foreach ($requiredKeys as $requiredKey) {
+            if (!array_key_exists($requiredKey, $json)) {
+                $missingKeys[] = $requiredKey;
             }
         }
 
@@ -99,7 +100,7 @@ class Inbound
             ->setAttachments(array_map($jsonToAttachment, $json['Attachments']))
             ->setReplyTo($json['ReplyTo'])
             ->setMailboxHash($json['MailboxHash'])
-            ->setDate($date)
+            ->setDate($dateTimeImmutable)
             ->setTextBody($json['TextBody'])
             ->setHtmlBody($json['HtmlBody'])
             ->setStrippedTextReply($json['StrippedTextReply'] ?? '')
@@ -108,7 +109,7 @@ class Inbound
 
     public static function fromPostmarkJson(string $json): Message
     {
-        $jsonData = json_decode($json, true);
+        $jsonData = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         /** @phpstan-var InboundMessage $jsonData */
 
         return self::fromPostmarkArray($jsonData);
