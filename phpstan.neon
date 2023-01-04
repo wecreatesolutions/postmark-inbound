@@ -25,5 +25,4 @@ parameters:
 
 includes:
     - phpstan-baseline.neon
-    - vendor/phpstan/phpstan-strict-rules/rules.neon
     - vendor/phpstan/phpstan-phpunit/extension.neon
