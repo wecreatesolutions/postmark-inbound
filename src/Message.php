@@ -18,6 +18,8 @@ class Message
 
     private DateTimeImmutable $dateTimeImmutable;
 
+    private string $rawMail;
+
     private string $textBody;
 
     private string $htmlBody;
@@ -118,6 +120,17 @@ class Message
     public function setDate(DateTimeImmutable $dateTimeImmutable): Message
     {
         $this->dateTimeImmutable = $dateTimeImmutable;
+        return $this;
+    }
+
+    public function getRawMail(): string
+    {
+        return $this->rawMail;
+    }
+
+    public function setRawMail(string $rawMail): Message
+    {
+        $this->rawMail = $rawMail;
         return $this;
     }
 

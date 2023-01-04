@@ -149,6 +149,9 @@ class InboundTest extends TestCase
         $message->setStrippedTextReply('text');
         self::assertEquals('text', $message->getStrippedTextReply());
 
+        $message->setRawMail('raw');
+        self::assertEquals('raw', $message->getRawMail());
+
         $message->setHtmlBody('html');
         self::assertEquals('html', $message->getHtmlBody());
 

@@ -2,8 +2,7 @@
   "name": "wecreatesolutions/postmark-inbound",
   "description": "Convenience library for postmark inbound emails.",
   "require": {
-    "php": ">=8.1.0",
-    "ext-curl": "*"
+    "php": ">=8.1.0"
   },
   "authors": [
     {
