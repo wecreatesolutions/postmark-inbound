@@ -1,0 +1,23 @@
+{
+  "From": "myUser@theirDomain.com",
+  "MessageStream": "inbound",
+  "FromName": "My User",
+  "FromFull": {
+    "Email": "myUser@theirDomain.com",
+    "Name": "John Doe",
+    "MailboxHash": ""
+  },
+  "To": "451d9b70cf9364d23ff6f9d51d870251569e+ahoy@inbound.postmarkapp.com",
+  "Cc": "\"Full name\" <sample.cc@emailDomain.com>, \"Another Cc\" <another.cc@emailDomain.com>",
+  "Bcc": "\"Full name\" <451d9b70cf9364d23ff6f9d51d870251569e@inbound.postmarkapp.com>",
+  "OriginalRecipient": "451d9b70cf9364d23ff6f9d51d870251569e+ahoy@inbound.postmarkapp.com",
+  "ReplyTo": "myUsersReplyAddress@theirDomain.com",
+  "Subject": "This is an inbound message",
+  "MessageID": "22c74902-a0c1-4511-804f2-341342852c90",
+  "Date": "Thu, 5 Apr 2012 16:59:01 +0200",
+  "MailboxHash": "ahoy",
+  "TextBody": "[ASCII]",
+  "HtmlBody": "[HTML]",
+  "StrippedTextReply": "Ok, thanks for letting me know!",
+  "Tag": "tag"
+}

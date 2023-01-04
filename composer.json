@@ -1,0 +1,68 @@
+{
+  "name": "wecreatesolutions/postmark-inbound",
+  "description": "Convenience library for postmark inbound emails.",
+  "require": {
+    "php": ">=8.1.0",
+    "ext-curl": "*"
+  },
+  "authors": [
+    {
+      "name": "Alex Buis",
+      "email": "alex@wecreatesolutions.nl"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "WeCreateSolutions\\Postmark\\": "src/"
+    },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://php-packages.wecreatesolutions.nl"
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "optimize-autoloader": true,
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true,
+    "bin-dir": "bin"
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^1.8",
+    "phpstan/phpstan-phpunit": "^1.1",
+    "phpstan/phpstan-strict-rules": "^1.3",
+    "phpunit/phpunit": "^9.5",
+    "rector/rector": "^0.13",
+    "squizlabs/php_codesniffer": "^3.7",
+    "wecreatesolutions/codestandards": "^2.1"
+  },
+  "scripts": {
+    "qa-fix": [
+      "php bin/rector || (printf '\\a' && sleep 10)",
+      "php bin/phpcbf || (printf '\\a' && sleep 10)",
+      "@qa-dev"
+    ],
+    "rector-dry": [
+      "php bin/rector --dry-run"
+    ],
+    "qa-dev": [
+      "php bin/phpcs || (printf '\\a' && sleep 10)",
+      "php bin/phpstan analyze || (printf '\\a' && sleep 10)",
+      "php bin/rector --dry-run || (printf '\\a' && sleep 10)",
+      "php bin/phpunit --colors=always --stop-on-error --stop-on-failure --columns max || (printf '\\a' && sleep 10)"
+    ],
+    "qa-dev-forever": [
+      "while [ true ]; do composer qa-dev;sleep 1;printf '=%.0s' {1..100};echo ''; done;"
+    ]
+  }
+}

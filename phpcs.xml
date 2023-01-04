@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ruleset name="WCS">
+    <description>Postmark Inbound</description>
+    <arg name="basepath" value="." />
+    <file>./src</file>
+    <!-- WCS -->
+    <rule ref="./vendor/wecreatesolutions/codestandards/src/Standards/WcsPhp8.0">
+        <exclude name="SlevomatCodingStandard.ControlStructures.DisallowNullSafeObjectOperator" />
+        <exclude name="SlevomatCodingStandard.Classes.DisallowConstructorPropertyPromotion" />
+    </rule>
+</ruleset>

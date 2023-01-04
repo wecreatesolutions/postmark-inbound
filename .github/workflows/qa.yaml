@@ -1,0 +1,114 @@
+name: Quality Assurance
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!staging'
+      - '!production'
+      - '!master'
+
+jobs:
+  qa-check:
+    name: composer + phpcs
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: docker://wimwinterberg/qa:1.20.0-8.1-cli-alpine
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure WCS Package Manager credentials
+        run: echo '${{ secrets.COMPOSER_AUTH_JSON_NEW }}' > auth.json
+
+      - name: Composer validate
+        run: composer validate
+
+      # region composer cache
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Composer Cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      # endregion
+
+      # region vendor cache
+      - name: Vendor Cache
+        uses: actions/cache@v1
+        with:
+          path: vendor
+          key: ${{ runner.os }}-vendor-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-vendor-${{ github.sha }}
+      # endregion
+
+      - name: Composer install
+        run: composer install --prefer-dist --no-progress --no-scripts
+
+      - name: PHPCS check
+        run: (bin/phpcs -w --report=checkstyle | php /usr/bin/cs2pr) && echo "done!"
+
+  phpunit:
+    name: phpunit
+    needs: qa-check
+    runs-on: ubuntu-latest
+
+    container:
+      image: docker://wimwinterberg/qa:1.20.0-8.1-cli-alpine
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # region vendor cache
+      - name: Vendor cache
+        uses: actions/cache@v1
+        with:
+          path: vendor
+          key: ${{ runner.os }}-vendor-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-vendor-${{ github.sha }}
+      # endregion
+
+      - name: Composer install
+        run: composer install --prefer-dist --no-progress --no-scripts
+
+      - name: PHPUnit test
+        env:
+          APPLICATION_URL: https://test
+        run: php bin/phpunit
+
+  phpstan:
+    name: phpstan
+    needs: qa-check
+    runs-on: ubuntu-latest
+
+    container:
+      image: docker://wimwinterberg/qa:1.20.0-8.1-cli-alpine
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # region vendor cache
+      - name: Vendor cache
+        uses: actions/cache@v1
+        with:
+          path: vendor
+          key: ${{ runner.os }}-vendor-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-vendor-${{ github.sha }}
+      # endregion
+
+      - name: PHPStan
+        run: (phpstan analyse --no-progress --error-format=checkstyle | php /usr/bin/cs2pr) && echo "done!"
