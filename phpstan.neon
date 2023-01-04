@@ -17,7 +17,7 @@ parameters:
     # nice to have enabled, but bridge too far for now
     checkMissingIterableValueType: false
 
-    # phpdoc here does not alway tell the real truth YET - bridge too far for now to enable
+    # phpdoc here does not always tell the real truth YET - bridge too far for now to enable
     treatPhpDocTypesAsCertain: false
 
     ignoreErrors:

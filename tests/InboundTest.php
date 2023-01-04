@@ -131,7 +131,7 @@ class InboundTest extends TestCase
         );
     }
 
-    public function testSetters()
+    public function testSetters(): void
     {
         $message = new Message();
         $message->setSubject('This is an inbound message 12');
