@@ -296,8 +296,8 @@ return [
         //'UnusedSuppressionPlugin',
         //'PossiblyStaticMethodPlugin'
         //'NumericalComparisonPlugin',
-        'vendor/drenso/phan-extensions/Plugin/Annotation/SymfonyAnnotationPlugin.php',
-        'vendor/drenso/phan-extensions/Plugin/DocComment/InlineVarPlugin.php',
+        //'vendor/drenso/phan-extensions/Plugin/Annotation/SymfonyAnnotationPlugin.php',
+        //'vendor/drenso/phan-extensions/Plugin/DocComment/InlineVarPlugin.php',
     ],
 
     // A list of directories that should be parsed for class and
