@@ -4,6 +4,7 @@ namespace WeCreateSolutions\Postmark;
 
 use DateTimeImmutable;
 use Exception;
+use JsonException;
 
 /**
  * @phpstan-type InboundMessage array{
@@ -109,6 +110,9 @@ class Inbound
             ->setTag($json['Tag']);
     }
 
+    /**
+     * @throws JsonException
+     */
     public static function fromPostmarkJson(string $json): Message
     {
         $jsonData = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
