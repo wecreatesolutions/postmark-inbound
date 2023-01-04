@@ -18,8 +18,8 @@ use Exception;
  *                                       MailboxHash: string,
  *                                       MessageID: string,
  *                                       Headers: array<int, InboundMessageHeader>,
- *                                       Attachments: array<int, InboundMessageAttachment>,
- *                                       ReplyTo: string,
+ *                                       Attachments: array<int, InboundMessageAttachment>|null,
+ *                                       ReplyTo: string|null,
  *                                       RawMail: string|null,
  *                                       TextBody: string,
  *                                       HtmlBody: string,
@@ -53,16 +53,16 @@ class Inbound
     public static function fromPostmarkArray(array $json): Message
     {
         $jsonToContact = static fn (array $contactData): Contact => new Contact(
-            $contactData['Email'] ?? '',
-            $contactData['Name'] ?? '',
+            $contactData['Email'],
+            $contactData['Name'],
             $contactData['MailboxHash'] ?? ''
         );
 
         $jsonToAttachment = static fn (array $attachmentData): Attachment => new Attachment(
-            $attachmentData['Name'] ?? '',
-            $attachmentData['Content'] ?? '',
-            $attachmentData['ContentType'] ?? '',
-            $attachmentData['ContentLength'] ?? ''
+            $attachmentData['Name'],
+            $attachmentData['Content'],
+            $attachmentData['ContentType'],
+            $attachmentData['ContentLength']
         );
 
         $jsonToHeader = static fn (array $headerData): Header => new Header(
@@ -76,7 +76,7 @@ class Inbound
             throw new InboundParseException('Invalid date format ');
         }
 
-        $requiredKeys = ['FromFull', 'ToFull', 'CcFull', 'BccFull', 'Subject', 'OriginalRecipient', 'MailboxHash', 'MessageID', 'Headers', 'Attachments', 'ReplyTo', 'TextBody', 'HtmlBody', 'StrippedTextReply', 'Tag'];
+        $requiredKeys = ['FromFull', 'ToFull', 'Subject', 'OriginalRecipient', 'MailboxHash', 'MessageID', 'Headers', 'Attachments', 'TextBody', 'HtmlBody', 'Tag'];
         $missingKeys = [];
         foreach ($requiredKeys as $requiredKey) {
             if (!array_key_exists($requiredKey, $json)) {
@@ -98,8 +98,8 @@ class Inbound
             ->setMessageStream($json['MessageStream'])
             ->setMessageId($json['MessageID'])
             ->setHeaders(array_map($jsonToHeader, $json['Headers']))
-            ->setAttachments(array_map($jsonToAttachment, $json['Attachments']))
-            ->setReplyTo($json['ReplyTo'])
+            ->setAttachments(array_map($jsonToAttachment, $json['Attachments'] ?? []))
+            ->setReplyTo($json['ReplyTo'] ?? '')
             ->setMailboxHash($json['MailboxHash'])
             ->setDate($dateTimeImmutable)
             ->setRawMail($json['RawMail'] ?? '')
