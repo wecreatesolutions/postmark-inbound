@@ -1,30 +1,30 @@
 parameters:
-#    reportUnmatchedIgnoredErrors: false
     level: max
     parallel:
        processTimeout: 300.0
+
+    tmpDir: %currentWorkingDirectory%/var/tmp/phpstan
 
     paths:
         - src
         - tests
 
+    stubFiles:
+
+    scanDirectories:
+
     excludePaths:
-    - %currentWorkingDirectory%/vendor
-    - %currentWorkingDirectory%/tests/bootstrap.php
+        - %currentWorkingDirectory%/tests/*
 
     inferPrivatePropertyTypeFromConstructor: true
 
     # nice to have enabled, but bridge too far for now
-    checkMissingIterableValueType: false
-
-    # phpdoc here does not always tell the real truth YET - bridge too far for now to enable
-    treatPhpDocTypesAsCertain: false
+#    checkMissingIterableValueType: false - # disabled because of https://github.com/phpstan/phpstan-src/commit/50d0c8e23ea85da508ab8481f1ff2c89148cc80b
 
     ignoreErrors:
-    - '#no value type specified in iterable type array.$#'
 
 includes:
-#    - phpstan-baseline.neon
+    - phpstan-baseline.neon
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
     - vendor/phpstan/phpstan-strict-rules/rules.neon
     - vendor/phpstan/phpstan-phpunit/extension.neon

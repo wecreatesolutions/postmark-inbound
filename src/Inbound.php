@@ -7,26 +7,26 @@ namespace WeCreateSolutions\Postmark;
  *                                       Date: string,
  *                                       MessageStream: string,
  *                                       FromFull: InboundMessageContact,
- *                                       ToFull: array<InboundMessageContact>,
- *                                       CcFull: array<InboundMessageContact>,
- *                                       BccFull: array<InboundMessageContact>,
+ *                                       ToFull: array<int, InboundMessageContact>,
+ *                                       CcFull: array<int, InboundMessageContact>|null,
+ *                                       BccFull: array<int, InboundMessageContact>|null,
  *                                       Subject: string,
  *                                       OriginalRecipient: string,
  *                                       MailboxHash: string,
  *                                       MessageID: string,
- *                                       Headers: array<InboundMessageHeader>,
- *                                       Attachments: array<InboundMessageAttachment>,
+ *                                       Headers: array<int, InboundMessageHeader>,
+ *                                       Attachments: array<int, InboundMessageAttachment>,
  *                                       ReplyTo: string,
  *                                       TextBody: string,
  *                                       HtmlBody: string,
- *                                       StrippedTextReply: string,
+ *                                       StrippedTextReply: string|null,
  *                                       Tag: string
  *                                     }
  *
  * @phpstan-type InboundMessageContact array{
  *                                          Email: string,
  *                                          Name: string,
- *                                          MailboxHash: string
+ *                                          MailboxHash: string|null
  *                                       }
  *
  * @phpstan-type InboundMessageHeader array{

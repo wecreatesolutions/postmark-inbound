@@ -187,6 +187,9 @@ class Message
         return $this->from;
     }
 
+    /**
+     * @param Contact[] $cc
+     */
     public function setCc(array $cc): Message
     {
         $this->cc = [];
@@ -196,11 +199,18 @@ class Message
         return $this;
     }
 
+    /**
+     * @return Contact[]
+     */
     public function getCc(): array
     {
         return $this->cc;
     }
 
+    /**
+     * @param Contact[] $bcc
+     * @return $this
+     */
     public function setBcc(array $bcc): Message
     {
         $this->bcc = [];
@@ -210,11 +220,10 @@ class Message
         return $this;
     }
 
-    public function getBcc(): array
-    {
-        return $this->bcc;
-    }
-
+    /**
+     * @param Contact[] $to
+     * @return $this
+     */
     public function setTo(array $to): Message
     {
         $this->to = [];
@@ -224,11 +233,26 @@ class Message
         return $this;
     }
 
+    /**
+     * @return Contact[]
+     */
+    public function getBcc(): array
+    {
+        return $this->bcc;
+    }
+
+    /**
+     * @return Contact[]
+     */
     public function getTo(): array
     {
         return $this->to;
     }
 
+    /**
+     * @param Attachment[] $attachments
+     * @return $this
+     */
     public function setAttachments(array $attachments): Message
     {
         $this->attachments = [];
@@ -238,11 +262,18 @@ class Message
         return $this;
     }
 
+    /**
+     * @return Attachment[]
+     */
     public function getAttachments(): array
     {
         return $this->attachments;
     }
 
+    /**
+     * @param Header[] $headers
+     * @return $this
+     */
     public function setHeaders(array $headers): Message
     {
         $this->headers = [];
@@ -252,6 +283,9 @@ class Message
         return $this;
     }
 
+    /**
+     * @return Header[]
+     */
     public function getHeaders(): array
     {
         return $this->headers;
