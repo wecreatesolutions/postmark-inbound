@@ -43,7 +43,7 @@ All headers can be fetched with getHeaders(), an array of Header objects will be
 $message = \WeCreateSolutions\PostmarkInbound\Message::fromPostmarkJson($postmarkJson);
 $headers = $message->getHeaders();
 foreach ($headers as $header) {
-    echo $header->getName() . ': ' . $header->getValue() . PHP_EOL;
+    echo $header->name . ': ' . $header->value . PHP_EOL;
 }
 ```
 
@@ -53,7 +53,7 @@ A convenience method is also available to get a specific header by name.
 $message = \WeCreateSolutions\PostmarkInbound\Message::fromPostmarkJson($postmarkJson);
 $header = $message->getHeaderByName('X-Spam-Status');
 if (null !== $header) {
-    echo $header->getName() . ': ' . $header->getValue() . PHP_EOL;
+    echo $header->name . ': ' . $header->value . PHP_EOL;
 }
 ```
 
@@ -65,6 +65,6 @@ methods you are able to get an array of Contact objects.
 $message = \WeCreateSolutions\PostmarkInbound\Message::fromPostmarkJson($postmarkJson);
 $cc = $message->getCc();
 foreach ($cc as $contact) {
-    echo $contact->getName() . ': ' . $contact->getEmail() . PHP_EOL;
+    echo $contact->name . ': ' . $contact->email . PHP_EOL;
 }
 ```
