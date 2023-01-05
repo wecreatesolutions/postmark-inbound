@@ -1,6 +1,14 @@
 {
   "name": "wecreatesolutions/postmark-inbound",
   "description": "Convenience library for postmark inbound email parsing.",
+  "keywords": [
+    "postmark",
+    "inbound",
+    "e-mail",
+    "webhook"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/wecreatesolutions/postmark-inbound",
   "require": {
     "php": ">=8.1.0"
   },
