@@ -40,6 +40,7 @@ class InboundTest extends TestCase
         self::assertEquals('Ok, thanks for letting me know!', $message->getStrippedTextReply());
         self::assertEquals('tag', $message->getTag());
         self::assertEquals('myUsersReplyAddress@theirDomain.com', $message->getReplyTo());
+        self::assertEquals('TEST', $message->getRawEmail());
 
         self::assertEquals(new DateTime('Thu, 5 Apr 2012 16:59:01 +0200'), $message->getDate());
 
@@ -149,8 +150,8 @@ class InboundTest extends TestCase
         $message->setStrippedTextReply('text');
         self::assertEquals('text', $message->getStrippedTextReply());
 
-        $message->setRawMail('raw');
-        self::assertEquals('raw', $message->getRawMail());
+        $message->setRawEmail('raw');
+        self::assertEquals('raw', $message->getRawEmail());
 
         $message->setHtmlBody('html');
         self::assertEquals('html', $message->getHtmlBody());

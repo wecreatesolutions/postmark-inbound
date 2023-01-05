@@ -21,7 +21,7 @@ use JsonException;
  *                                       Headers: array<int, InboundMessageHeader>,
  *                                       Attachments: array<int, InboundMessageAttachment>|null,
  *                                       ReplyTo: string|null,
- *                                       RawMail: string|null,
+ *                                       RawEmail: string|null,
  *                                       TextBody: string,
  *                                       HtmlBody: string,
  *                                       StrippedTextReply: string|null,
@@ -103,7 +103,7 @@ class Inbound
             ->setReplyTo($json['ReplyTo'] ?? '')
             ->setMailboxHash($json['MailboxHash'])
             ->setDate($dateTimeImmutable)
-            ->setRawMail($json['RawMail'] ?? '')
+            ->setRawEmail($json['RawEmail'] ?? '')
             ->setTextBody($json['TextBody'])
             ->setHtmlBody($json['HtmlBody'])
             ->setStrippedTextReply($json['StrippedTextReply'] ?? '')
