@@ -1,4 +1,4 @@
-# We Create Solutions Postmark Inbound Package 
+# Postmark Inbound Package 
 
 Goal of this package is to ease the use of a Postmark Inbound Webhook. 
 
@@ -9,7 +9,7 @@ Goal of this package is to ease the use of a Postmark Inbound Webhook.
 
 #### Inbound
 
-This class allows you to convert the Postmark json string into a Message class
+This object allows you to convert the Postmark json string into a Message object
 
 #### Contact
 
@@ -27,13 +27,13 @@ Represents any attachment that was sent along with the mail message.
 ### Examples 
 
 Let's say we want to convert the Postmark inbound json string into a message 
-class that we can use in our application. 
+object that we can use in our application. 
 
 ```php
 $message = \WeCreateSolutions\PostmarkInbound\Message::fromPostmarkJson($postmarkJson);
 ```
 
-The message class will contain convenient getters to all values that represent the mail message.
+The message object will contain convenient getters to all values that represent the mail message.
 
 #### Headers
 
@@ -52,7 +52,9 @@ A convenience method is also available to get a specific header by name.
 ```php
 $message = \WeCreateSolutions\PostmarkInbound\Message::fromPostmarkJson($postmarkJson);
 $header = $message->getHeaderByName('X-Spam-Status');
-echo $header->getName() . ': ' . $header->getValue() . PHP_EOL;
+if (null !== $header) {
+    echo $header->getName() . ': ' . $header->getValue() . PHP_EOL;
+}
 ```
 
 #### Contacts
