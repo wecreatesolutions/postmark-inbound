@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Configure WCS Package Manager credentials
-        run: echo '${{ secrets.COMPOSER_AUTH_JSON_NEW }}' > auth.json
+        run: echo '${{ secrets.COMPOSER_AUTH_JSON }}' > auth.json
 
       - name: Composer validate
         run: composer validate
