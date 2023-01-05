@@ -18,7 +18,7 @@ class Message
 
     private DateTimeImmutable $dateTimeImmutable;
 
-    private string $rawMail;
+    private string $rawEmail;
 
     private string $textBody;
 
@@ -123,14 +123,14 @@ class Message
         return $this;
     }
 
-    public function getRawMail(): string
+    public function getRawEmail(): string
     {
-        return $this->rawMail;
+        return $this->rawEmail;
     }
 
-    public function setRawMail(string $rawMail): Message
+    public function setRawEmail(string $rawEmail): Message
     {
-        $this->rawMail = $rawMail;
+        $this->rawEmail = $rawEmail;
         return $this;
     }
 
