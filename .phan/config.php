@@ -285,19 +285,10 @@ return [
         'AlwaysReturnPlugin',
         'DollarDollarPlugin',
         'DuplicateArrayKeyPlugin',
-        //'DuplicateExpressionPlugin',
         'PregRegexCheckerPlugin',
         'PrintfCheckerPlugin',
         'SleepCheckerPlugin',
         'UnreachableCodePlugin',
-        //'UseReturnValuePlugin',
-        //'EmptyStatementListPlugin',
-        //'LoopVariableReusePlugin',
-        //'UnusedSuppressionPlugin',
-        //'PossiblyStaticMethodPlugin'
-        //'NumericalComparisonPlugin',
-        //'vendor/drenso/phan-extensions/Plugin/Annotation/SymfonyAnnotationPlugin.php',
-        //'vendor/drenso/phan-extensions/Plugin/DocComment/InlineVarPlugin.php',
     ],
 
     // A list of directories that should be parsed for class and
