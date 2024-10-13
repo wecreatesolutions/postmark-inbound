@@ -78,13 +78,15 @@ class InboundTest extends TestCase
                 "myimage.png",
                 "[BASE64-ENCODED CONTENT]",
                 "image/png",
-                4096
+                4096,
+                "myimage.png@01CE7342.75E71F80"
             ),
             new Attachment(
                 "mypaper.doc",
                 "[BASE64-ENCODED CONTENT]",
                 "application/msword",
-                16384
+                16384,
+                ''
             ),
         ], $message->getAttachments());
 

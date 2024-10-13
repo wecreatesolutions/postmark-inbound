@@ -63,7 +63,8 @@ class Inbound
             $attachmentData['Name'],
             $attachmentData['Content'],
             $attachmentData['ContentType'],
-            $attachmentData['ContentLength']
+            $attachmentData['ContentLength'],
+            $attachmentData['ContentID'] ?? null
         );
 
         $jsonToHeader = static fn (array $headerData): Header => new Header(

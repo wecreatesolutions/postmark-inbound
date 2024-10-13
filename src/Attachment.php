@@ -8,7 +8,8 @@ class Attachment
         public readonly string $name,
         public readonly string $content,
         public readonly string $contentType,
-        public readonly int $contentLength
+        public readonly int $contentLength,
+        public readonly ?string $contentId = null
     ) {
     }
 }
