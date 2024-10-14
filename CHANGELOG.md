@@ -2,10 +2,10 @@
 
 All notable changes to `postmark-inbound` will be documented in this file.
 
-## [Unreleased]
+## [v1.0.2] - 2024-10-14
 
 ### Added
-- Added the parsing and storing of the `ContentID` field in attachments
+- Added the parsing and storing of the `ContentID` field in attachments (Thanks @fulopattila122)
 
 ## [v1.0.1] - 2023-01-05
 
